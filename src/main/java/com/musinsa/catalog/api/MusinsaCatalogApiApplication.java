@@ -1,13 +1,13 @@
-package com.musinsa.goods.api;
+package com.musinsa.catalog.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MusinsaGoodsApiApplication {
+public class MusinsaCatalogApiApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MusinsaGoodsApiApplication.class, args);
+		SpringApplication.run(MusinsaCatalogApiApplication.class, args);
 	}
 
 }

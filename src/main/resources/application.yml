@@ -1,3 +1,7 @@
 spring:
   application:
-    name: musinsa-goods-api
+    name: musinsa-catalog-api
+  profiles:
+    include:
+      - database
+      - doc
