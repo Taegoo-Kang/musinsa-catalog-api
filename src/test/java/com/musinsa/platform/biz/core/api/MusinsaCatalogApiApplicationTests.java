@@ -1,4 +1,4 @@
-package com.musinsa.catalog.api;
+package com.musinsa.platform.biz.core.api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

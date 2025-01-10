@@ -11,8 +11,8 @@ public record BrandCatalogVo(
     @Schema(description = "브랜드명", defaultValue = "브랜드")
     String brandName,
 
-    @Schema(description = "카테고리 목록")
-    List<CategoryGoodsVo> categoryGoodsList,
+    @Schema(description = "카테고리 상품 목록")
+    List<GoodsVo> categoryGoodsList,
 
     @Schema(description = "총액", defaultValue = "0")
     String totalPrice

@@ -6,10 +6,10 @@ import lombok.Builder;
 import java.util.List;
 
 @Builder
-public record LowPriceCategoriesResponse (
+public record CategoriesResponse(
 
-    @Schema(description = "최저가 상품 목록")
-    List<GoodsVo> lowPriceGoodsList,
+    @Schema(description = "상품 목록")
+    List<GoodsVo> goodsList,
 
     @Schema(description = "총액", defaultValue = "0")
     String totalPrice

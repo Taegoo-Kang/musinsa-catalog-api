@@ -4,8 +4,8 @@ import com.musinsa.platform.biz.core.api.catalog.dto.*;
 import com.musinsa.platform.biz.core.api.common.jpa.repository.BrandRepository;
 import com.musinsa.platform.biz.core.api.common.jpa.repository.CategoryRepository;
 import com.musinsa.platform.biz.core.api.common.jpa.repository.GoodsRepository;
+import com.musinsa.platform.biz.core.api.common.model.PriceSortType;
 import com.musinsa.platform.biz.core.api.common.utils.NumberUtils;
-import com.querydsl.core.types.Order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,16 +21,16 @@ public class CatalogService {
     private final GoodsRepository goodsRepository;
 
     /**
-     * 1. 카테고리 별 최저가격 브랜드와 상품 가격, 총액을 조회
+     * 1. 카테고리 별 최저/최고 가격 브랜드와 상품 가격, 총액을 조회
      *
-     * @return 카테고리 별 최저가격
+     * @return 카테고리 별 최저/최고 가격의 상품
      */
-    public LowPriceCategoriesResponse getLowPriceCategories() {
+    public CategoriesResponse getCategoriesCatalog(PriceSortType priceSortType) {
 
-        var lowPriceGoodsList = categoryRepository.findAll().stream()
+        var goodsList = categoryRepository.findAll().stream()
                 .map(category -> {
 
-                    var goods = goodsRepository.findLowPriceByCategory(category.getCategoryNo());
+                    var goods = goodsRepository.findOneByCategory(category.getCategoryNo(), priceSortType);
 
                     return GoodsVo.builder()
                             .categoryName(category.getCategoryName())
@@ -42,32 +42,33 @@ public class CatalogService {
                 })
                 .toList();
 
-        var totalPrice = lowPriceGoodsList.stream()
+        var totalPrice = goodsList.stream()
                 .mapToLong(GoodsVo::salePrice)
                 .sum();
 
-        return LowPriceCategoriesResponse.builder()
-                .lowPriceGoodsList(lowPriceGoodsList)
+        return CategoriesResponse.builder()
+                .goodsList(goodsList)
                 .totalPrice(NumberUtils.formatDecimal(totalPrice))
                 .build();
     }
 
     /**
-     * 2. 단일 브랜드로 모든 카테고리 상품을 구매할 때 최저가격에 판매하는 브랜드와 카테고리의 상품가격, 총액을 조회
+     * 2. 단일 브랜드로 모든 카테고리 상품을 구매할 때 최저/최고 가격에 판매하는 브랜드와 카테고리의 상품가격, 총액을 조회
      *
-     * @return 최저가격의 단일 브랜드
+     * @return 최저/최고 가격의 단일 브랜드
      */
-    public LowPriceBrandResponse getLowPriceBrand() {
+    public BrandResponse getBrandCatalog(PriceSortType priceSortType) {
 
         var categoryList = categoryRepository.findAll();
 
-        var lowPriceBrand = brandRepository.findAll().stream()
+        var brandCatalog = brandRepository.findAll().stream()
                 .map(brand -> {
-                    var lowPriceCategoryGoodsList = categoryList.stream()
+                    // 브랜드별 모든 카테고리 상품 조회
+                    var categoryGoodsList = categoryList.stream()
                             .map(category -> {
-                                var goods = goodsRepository.findLowPriceByBrandAndCategory(brand.getBrandNo(), category.getCategoryNo());
+                                var goods = goodsRepository.findOneByBrandAndCategory(brand.getBrandNo(), category.getCategoryNo(), priceSortType);
 
-                                return CategoryGoodsVo.builder()
+                                return GoodsVo.builder()
                                         .categoryName(category.getCategoryName())
                                         .salePrice(goods.getSalePrice())
                                         .salePriceStr(NumberUtils.formatDecimal(goods.getSalePrice()))
@@ -75,21 +76,22 @@ public class CatalogService {
                             })
                             .toList();
 
-                    var totalPrice = lowPriceCategoryGoodsList.stream()
-                            .mapToLong(CategoryGoodsVo::salePrice)
+                    var totalPrice = categoryGoodsList.stream()
+                            .mapToLong(GoodsVo::salePrice)
                             .sum();
 
                     return BrandCatalogVo.builder()
                             .brandName(brand.getBrandName())
-                            .categoryGoodsList(lowPriceCategoryGoodsList)
+                            .categoryGoodsList(categoryGoodsList)
                             .totalPrice(NumberUtils.formatDecimal(totalPrice))
                             .build();
+
                 })
                 .min(Comparator.comparing(BrandCatalogVo::totalPrice))
                 .orElse(null);
 
-        return LowPriceBrandResponse.builder()
-                .lowPriceBrand(lowPriceBrand)
+        return BrandResponse.builder()
+                .brandCatalog(brandCatalog)
                 .build();
     }
 
@@ -97,41 +99,44 @@ public class CatalogService {
      * 카테고리 이름으로 최저, 최고 가격 브랜드와 상품 가격을 조회
      *
      * @param categoryName 카테고리 이름
-     * @return 최저, 최고 가격 브랜드
+     * @return 최저, 최고 가격의 상품
      */
-    public LowHighPriceBrandResponse getCategoryLowHighPrice(String categoryName) {
+    public LowHighPriceGoodsResponse getLowHighPriceGoodsByCategory(String categoryName) {
+        // 카테고리 조회
         var optCategory = categoryRepository.findByCategoryName(categoryName);
-
+        // 카테고리 없음
         if (optCategory.isEmpty()) {
-            return LowHighPriceBrandResponse.builder()
+            return LowHighPriceGoodsResponse.builder()
                     .categoryName(categoryName)
-                    .lowPriceBrandList(Collections.emptyList())
-                    .highPriceBrandList(Collections.emptyList())
+                    .lowPriceGoodsList(Collections.emptyList())
+                    .highPriceGoodsList(Collections.emptyList())
                     .build();
         }
 
         var category = optCategory.get();
 
-        var lowPriceBrands = goodsRepository.findByCategory(category.getCategoryNo(), Order.ASC).stream()
-                .map(goods -> BrandGoodsVo.builder()
+        // 최저가 상품
+        var lowPriceGoods = goodsRepository.findAllByCategory(category.getCategoryNo(), PriceSortType.LOW).stream()
+                .map(goods -> GoodsVo.builder()
                         .brandName(goods.getBrand().getBrandName())
                         .salePrice(goods.getSalePrice())
                         .salePriceStr(NumberUtils.formatDecimal(goods.getSalePrice()))
                         .build())
                 .toList();
 
-        var highPriceBrands = goodsRepository.findByCategory(category.getCategoryNo(), Order.DESC).stream()
-                .map(goods -> BrandGoodsVo.builder()
+        // 최고가 상품
+        var highPriceGoods = goodsRepository.findAllByCategory(category.getCategoryNo(), PriceSortType.HIGH).stream()
+                .map(goods -> GoodsVo.builder()
                         .brandName(goods.getBrand().getBrandName())
                         .salePrice(goods.getSalePrice())
                         .salePriceStr(NumberUtils.formatDecimal(goods.getSalePrice()))
                         .build())
                 .toList();
 
-        return LowHighPriceBrandResponse.builder()
+        return LowHighPriceGoodsResponse.builder()
                 .categoryName(categoryName)
-                .lowPriceBrandList(lowPriceBrands)
-                .highPriceBrandList(highPriceBrands)
+                .lowPriceGoodsList(lowPriceGoods)
+                .highPriceGoodsList(highPriceGoods)
                 .build();
     }
 }

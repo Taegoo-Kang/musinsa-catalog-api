@@ -1,15 +1,15 @@
 package com.musinsa.platform.biz.core.api.common.jpa.repository.querydsl;
 
 import com.musinsa.platform.biz.core.api.common.jpa.entity.Goods;
-import com.querydsl.core.types.Order;
+import com.musinsa.platform.biz.core.api.common.model.PriceSortType;
 
 import java.util.List;
 
 public interface GoodsQuerydslRepository {
 
-    Goods findLowPriceByCategory(Long categoryNo);
+    Goods findOneByCategory(Long categoryNo, PriceSortType priceSortType);
 
-    Goods findLowPriceByBrandAndCategory(Long brandNo, Long categoryNo);
+    Goods findOneByBrandAndCategory(Long brandNo, Long categoryNo, PriceSortType priceSortType);
 
-    List<Goods> findByCategory(Long categoryNo, Order order);
+    List<Goods> findAllByCategory(Long categoryNo, PriceSortType priceSortType);
 }

@@ -2,10 +2,9 @@ package com.musinsa.platform.biz.core.api.common.jpa.repository.querydsl;
 
 import com.musinsa.platform.biz.core.api.common.jpa.entity.Goods;
 import com.musinsa.platform.biz.core.api.common.jpa.entity.QGoods;
-import com.querydsl.core.types.Order;
+import com.musinsa.platform.biz.core.api.common.model.PriceSortType;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Sort;
 
 import java.util.Collections;
 import java.util.List;
@@ -16,8 +15,11 @@ public class GoodsQuerydslRepositoryImpl implements GoodsQuerydslRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Goods findLowPriceByCategory(Long categoryNo) {
+    public Goods findOneByCategory(Long categoryNo, PriceSortType priceSortType) {
         var goods = QGoods.goods;
+
+        var salePriceOrder = PriceSortType.LOW.equals(priceSortType)
+                ? goods.salePrice.asc() : goods.salePrice.desc();
 
         return jpaQueryFactory
                 .selectFrom(goods)
@@ -25,13 +27,16 @@ public class GoodsQuerydslRepositoryImpl implements GoodsQuerydslRepository {
                         .and(goods.category.useYn.eq("Y"))
                         .and(goods.brand.useYn.eq("Y"))
                         .and(goods.useYn.eq("Y")))
-                .orderBy(goods.salePrice.asc(), goods.brand.brandNo.desc())
+                .orderBy(salePriceOrder, goods.brand.brandNo.desc())
                 .fetchFirst();
     }
 
     @Override
-    public Goods findLowPriceByBrandAndCategory(Long brandNo, Long categoryNo) {
+    public Goods findOneByBrandAndCategory(Long brandNo, Long categoryNo, PriceSortType priceSortType) {
         var goods = QGoods.goods;
+
+        var salePriceOrder = PriceSortType.LOW.equals(priceSortType)
+                ? goods.salePrice.asc() : goods.salePrice.desc();
 
         return jpaQueryFactory
                 .selectFrom(goods)
@@ -40,15 +45,16 @@ public class GoodsQuerydslRepositoryImpl implements GoodsQuerydslRepository {
                         .and(goods.brand.useYn.eq("Y"))
                         .and(goods.category.useYn.eq("Y"))
                         .and(goods.useYn.eq("Y")))
-                .orderBy(goods.salePrice.asc())
+                .orderBy(salePriceOrder)
                 .fetchFirst();
     }
 
     @Override
-    public List<Goods> findByCategory(Long categoryNo, Order order) {
+    public List<Goods> findAllByCategory(Long categoryNo, PriceSortType priceSortType) {
         var goods = QGoods.goods;
 
-        var orderBy = Order.ASC.equals(order) ? goods.salePrice.asc() : goods.salePrice.desc();
+        var salePriceOrder = PriceSortType.LOW.equals(priceSortType)
+                ? goods.salePrice.asc() : goods.salePrice.desc();
 
         // 카테고리의 최저가 또는 최고가 조회
         Long salePrice = jpaQueryFactory
@@ -57,7 +63,7 @@ public class GoodsQuerydslRepositoryImpl implements GoodsQuerydslRepository {
                 .where(goods.category.categoryNo.eq(categoryNo)
                         .and(goods.category.useYn.eq("Y"))
                         .and(goods.useYn.eq("Y")))
-                .orderBy(orderBy)
+                .orderBy(salePriceOrder)
                 .fetchFirst();
 
         if (salePrice == null) {
@@ -70,6 +76,7 @@ public class GoodsQuerydslRepositoryImpl implements GoodsQuerydslRepository {
                         .and(goods.salePrice.eq(salePrice))
                         .and(goods.category.useYn.eq("Y"))
                         .and(goods.useYn.eq("Y")))
+                .orderBy(goods.brand.brandNo.desc())
                 .fetch();
     }
 }
