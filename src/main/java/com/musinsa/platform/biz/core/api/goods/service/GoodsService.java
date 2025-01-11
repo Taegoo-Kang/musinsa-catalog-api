@@ -80,6 +80,6 @@ public class GoodsService {
         var goods = goodsRepository.findByGoodsNo(goodsNo)
                 .orElseThrow(() -> new NotFoundException("상품", goodsNo));
 
-        goods.setUseYn("N");
+        goods.delete();
     }
 }

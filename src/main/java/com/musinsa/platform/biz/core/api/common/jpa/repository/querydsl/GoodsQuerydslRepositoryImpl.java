@@ -1,7 +1,6 @@
 package com.musinsa.platform.biz.core.api.common.jpa.repository.querydsl;
 
-import com.musinsa.platform.biz.core.api.common.jpa.entity.Goods;
-import com.musinsa.platform.biz.core.api.common.jpa.entity.QGoods;
+import com.musinsa.platform.biz.core.api.common.jpa.entity.*;
 import com.musinsa.platform.biz.core.api.common.model.PriceSortType;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +14,7 @@ public class GoodsQuerydslRepositoryImpl implements GoodsQuerydslRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Goods findOneByCategory(Long categoryNo, PriceSortType priceSortType) {
+    public Goods findOneByCategory(Category category, PriceSortType priceSortType) {
         var goods = QGoods.goods;
 
         var salePriceOrder = PriceSortType.LOW.equals(priceSortType)
@@ -23,34 +22,41 @@ public class GoodsQuerydslRepositoryImpl implements GoodsQuerydslRepository {
 
         return jpaQueryFactory
                 .selectFrom(goods)
-                .where(goods.category.categoryNo.eq(categoryNo)
-                        .and(goods.category.useYn.eq("Y"))
-                        .and(goods.brand.useYn.eq("Y"))
-                        .and(goods.useYn.eq("Y")))
+                    .join(goods.category, QCategory.category)
+                    .join(goods.brand, QBrand.brand)
+                .where(goods.category.eq(category)
+                    .and(goods.useYn.eq("Y"))
+                    .and(goods.category.useYn.eq("Y"))
+                    .and(goods.brand.useYn.eq("Y")))
                 .orderBy(salePriceOrder, goods.brand.brandNo.desc())
+                .fetchJoin()
                 .fetchFirst();
     }
 
     @Override
-    public Goods findOneByBrandAndCategory(Long brandNo, Long categoryNo, PriceSortType priceSortType) {
+    public Goods findOneByBrandAndCategory(Brand brand, Category category, PriceSortType priceSortType) {
         var goods = QGoods.goods;
 
+        // 과제에서는 상품이 하나이지만 해당 카테고리, 브랜드의 상품이 여러개일 수 있음을 가정
         var salePriceOrder = PriceSortType.LOW.equals(priceSortType)
                 ? goods.salePrice.asc() : goods.salePrice.desc();
 
         return jpaQueryFactory
                 .selectFrom(goods)
-                .where(goods.brand.brandNo.eq(brandNo)
-                        .and(goods.category.categoryNo.eq(categoryNo))
+                        .join(goods.category, QCategory.category)
+                        .join(goods.brand, QBrand.brand)
+                .where(goods.brand.eq(brand)
+                        .and(goods.category.eq(category))
                         .and(goods.brand.useYn.eq("Y"))
                         .and(goods.category.useYn.eq("Y"))
                         .and(goods.useYn.eq("Y")))
                 .orderBy(salePriceOrder)
+                .fetchJoin()
                 .fetchFirst();
     }
 
     @Override
-    public List<Goods> findAllByCategory(Long categoryNo, PriceSortType priceSortType) {
+    public List<Goods> findAllByCategory(Category category, PriceSortType priceSortType) {
         var goods = QGoods.goods;
 
         var salePriceOrder = PriceSortType.LOW.equals(priceSortType)
@@ -60,7 +66,8 @@ public class GoodsQuerydslRepositoryImpl implements GoodsQuerydslRepository {
         Long salePrice = jpaQueryFactory
                 .select(goods.salePrice)
                 .from(goods)
-                .where(goods.category.categoryNo.eq(categoryNo)
+                        .join(goods.category, QCategory.category)
+                .where(goods.category.eq(category)
                         .and(goods.category.useYn.eq("Y"))
                         .and(goods.useYn.eq("Y")))
                 .orderBy(salePriceOrder)
@@ -72,11 +79,14 @@ public class GoodsQuerydslRepositoryImpl implements GoodsQuerydslRepository {
 
         return jpaQueryFactory
                 .selectFrom(goods)
-                .where(goods.category.categoryNo.eq(categoryNo)
+                        .join(goods.category, QCategory.category)
+                        .join(goods.brand, QBrand.brand)
+                .where(goods.category.eq(category)
                         .and(goods.salePrice.eq(salePrice))
                         .and(goods.category.useYn.eq("Y"))
                         .and(goods.useYn.eq("Y")))
                 .orderBy(goods.brand.brandNo.desc())
+                .fetchJoin()
                 .fetch();
     }
 }

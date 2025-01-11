@@ -2,17 +2,15 @@ package com.musinsa.platform.biz.core.api.common.jpa.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+@ToString
 @Getter
 @DynamicUpdate
 @DynamicInsert
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "brand")
 @Entity
 public class Brand extends AuditEntity {
@@ -23,16 +21,20 @@ public class Brand extends AuditEntity {
     private Long brandNo;
 
     @Setter
-    @NotEmpty
+    @NotEmpty(message = "브랜드명은 필수입니다.")
     @Column(name = "brand_name", columnDefinition = "varchar(30)", nullable = false)
     private String brandName;
 
-    @Setter
     @Column(name = "use_yn", columnDefinition = "char(1) default 'Y'", nullable = false)
     private String useYn;
 
     @Builder
     private Brand(String brandName) {
         this.brandName = brandName;
+        this.useYn = "Y";
+    }
+
+    public void delete() {
+        this.useYn = "N";
     }
 }

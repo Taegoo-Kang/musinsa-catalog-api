@@ -40,9 +40,9 @@ public class GoodsDto extends CommonDto {
     @Schema(description = "상품명", defaultValue = "상품", requiredMode = Schema.RequiredMode.REQUIRED)
     private final String goodsName;
 
-    @Min(1)
-    @NotNull(message = "판매가격은 필수입니다.")
-    @Schema(description = "판매가격", defaultValue = "0", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Min(value = 1, message = "상품가격은 0보다 커야합니다.")
+    @NotNull(message = "상품가격은 필수입니다.")
+    @Schema(description = "상품가격", defaultValue = "0", requiredMode = Schema.RequiredMode.REQUIRED)
     private final Long salePrice;
 
     @Builder

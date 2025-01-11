@@ -66,6 +66,6 @@ public class BrandService {
         var brand = brandRepository.findByBrandNo(brandNo)
                 .orElseThrow(() -> new NotFoundException("브랜드", brandNo));
 
-        brand.setUseYn("N");
+        brand.delete();
     }
 }

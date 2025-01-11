@@ -13,9 +13,26 @@ import java.util.Optional;
 @Repository
 public interface GoodsRepository extends JpaRepository<Goods, Long>, GoodsQuerydslRepository {
 
-    @Query("SELECT g FROM Goods g WHERE g.useYn = 'Y'")
+    @Query("""
+        SELECT g
+        FROM Goods g
+            JOIN FETCH g.category c
+            JOIN FETCH g.brand b
+        WHERE g.useYn = 'Y'
+            AND c.useYn = 'Y'
+            AND b.useYn = 'Y'
+    """)
     List<Goods> findAllGoods();
 
-    @Query("SELECT g FROM Goods g WHERE g.goodsNo = :goodsNo AND g.useYn = 'Y'")
+    @Query("""
+        SELECT g
+        FROM Goods g
+            JOIN FETCH g.category c
+            JOIN FETCH g.brand b
+        WHERE g.goodsNo = :goodsNo
+            AND g.useYn = 'Y'
+            AND c.useYn = 'Y'
+            AND b.useYn = 'Y'
+    """)
     Optional<Goods> findByGoodsNo(@Param("goodsNo") Long goodsNo);
 }

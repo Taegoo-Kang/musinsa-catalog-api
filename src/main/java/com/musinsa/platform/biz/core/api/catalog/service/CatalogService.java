@@ -30,7 +30,7 @@ public class CatalogService {
         var goodsList = categoryRepository.findAll().stream()
                 .map(category -> {
 
-                    var goods = goodsRepository.findOneByCategory(category.getCategoryNo(), priceSortType);
+                    var goods = goodsRepository.findOneByCategory(category, priceSortType);
 
                     return GoodsVo.builder()
                             .categoryName(category.getCategoryName())
@@ -66,7 +66,7 @@ public class CatalogService {
                     // 브랜드별 모든 카테고리 상품 조회
                     var categoryGoodsList = categoryList.stream()
                             .map(category -> {
-                                var goods = goodsRepository.findOneByBrandAndCategory(brand.getBrandNo(), category.getCategoryNo(), priceSortType);
+                                var goods = goodsRepository.findOneByBrandAndCategory(brand, category, priceSortType);
 
                                 return GoodsVo.builder()
                                         .categoryName(category.getCategoryName())
@@ -116,7 +116,7 @@ public class CatalogService {
         var category = optCategory.get();
 
         // 최저가 상품
-        var lowPriceGoods = goodsRepository.findAllByCategory(category.getCategoryNo(), PriceSortType.LOW).stream()
+        var lowPriceGoods = goodsRepository.findAllByCategory(category, PriceSortType.LOW).stream()
                 .map(goods -> GoodsVo.builder()
                         .brandName(goods.getBrand().getBrandName())
                         .salePrice(goods.getSalePrice())
@@ -125,7 +125,7 @@ public class CatalogService {
                 .toList();
 
         // 최고가 상품
-        var highPriceGoods = goodsRepository.findAllByCategory(category.getCategoryNo(), PriceSortType.HIGH).stream()
+        var highPriceGoods = goodsRepository.findAllByCategory(category, PriceSortType.HIGH).stream()
                 .map(goods -> GoodsVo.builder()
                         .brandName(goods.getBrand().getBrandName())
                         .salePrice(goods.getSalePrice())
