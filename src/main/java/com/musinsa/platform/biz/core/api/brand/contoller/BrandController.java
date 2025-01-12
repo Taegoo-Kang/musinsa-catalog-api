@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Tag(name = "브랜드 관리 API")
+@Tag(name = "2. 브랜드 관리 API")
 @RequiredArgsConstructor
 @RequestMapping("/api/brand")
 @RestController
