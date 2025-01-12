@@ -1,7 +1,6 @@
-package com.musinsa.platform.biz.core.api.catalog;
+package com.musinsa.platform.biz.core.api.catalog.service;
 
 import com.musinsa.platform.biz.core.api.catalog.dto.GoodsVo;
-import com.musinsa.platform.biz.core.api.catalog.service.CatalogService;
 import com.musinsa.platform.biz.core.api.common.jpa.entity.Brand;
 import com.musinsa.platform.biz.core.api.common.jpa.entity.Category;
 import com.musinsa.platform.biz.core.api.common.jpa.entity.Goods;

@@ -1,7 +1,6 @@
-package com.musinsa.platform.biz.core.api.brand;
+package com.musinsa.platform.biz.core.api.brand.service;
 
 import com.musinsa.platform.biz.core.api.brand.dto.BrandDto;
-import com.musinsa.platform.biz.core.api.brand.service.BrandService;
 import com.musinsa.platform.biz.core.api.common.exception.NotFoundException;
 import com.musinsa.platform.biz.core.api.common.jpa.entity.Brand;
 import com.musinsa.platform.biz.core.api.common.jpa.repository.BrandRepository;

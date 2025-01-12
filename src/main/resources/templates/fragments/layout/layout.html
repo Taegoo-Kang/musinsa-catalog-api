@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="~{fragments/head :: HeadFragment}"></head>
+<body class="sb-nav-fixed">
+    <header th:replace="~{fragments/header :: HeaderFragment}"></header>
+
+    <div id="layoutSidenav">
+        <!-- Sidebar -->
+        <div th:replace="~{fragments/sidebar :: SibebarFragment}"></div>
+
+        <!-- Content -->
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid px-4">
+                    <th:block layout:fragment="Content"></th:block>
+                </div>
+            </main>
+
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright&copy; MUSINSA 2001</div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+</body>
+</html>

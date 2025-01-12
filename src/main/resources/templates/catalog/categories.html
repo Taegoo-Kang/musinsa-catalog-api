@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/fragments/layout/layout}"
+      layout:fragment="Content">
+
+<body>
+<h1 class="mt-4">카테고리 별 최저가</h1>
+
+<div class="container-lg">
+    <div class="table-responsive">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-8"><h2>상품 목록</b></h2></div>
+                </div>
+            </div>
+            <table class="table table-bordered">
+                <thead align="center">
+                <tr>
+                    <th>카테고리</th>
+                    <th>브랜드</th>
+                    <th>가격</th>
+                </tr>
+                </thead>
+                <tbody align="center">
+                <tr th:each="goods : ${data.goodsList}">
+                    <td th:text="${goods.categoryName}"></td>
+                    <td th:text="${goods.brandName}"></td>
+                    <td th:text="${goods.salePriceStr}"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">총액</td>
+                    <td th:text="${data.totalPrice}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

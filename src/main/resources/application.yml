@@ -5,3 +5,5 @@ spring:
     include:
       - database
       - doc
+  thymeleaf:
+    cache: false

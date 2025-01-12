@@ -1,4 +1,4 @@
-package com.musinsa.platform.biz.core.api.goods;
+package com.musinsa.platform.biz.core.api.goods.service;
 
 import com.musinsa.platform.biz.core.api.common.jpa.entity.Brand;
 import com.musinsa.platform.biz.core.api.common.jpa.entity.Category;
@@ -8,7 +8,6 @@ import com.musinsa.platform.biz.core.api.common.jpa.repository.CategoryRepositor
 import com.musinsa.platform.biz.core.api.common.jpa.repository.GoodsRepository;
 import com.musinsa.platform.biz.core.api.goods.dto.GoodsDto;
 import com.musinsa.platform.biz.core.api.goods.mapper.GoodsMapper;
-import com.musinsa.platform.biz.core.api.goods.service.GoodsService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
