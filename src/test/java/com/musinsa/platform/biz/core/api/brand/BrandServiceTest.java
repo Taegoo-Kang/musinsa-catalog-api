@@ -86,7 +86,7 @@ public class BrandServiceTest {
 
         var updated = brandService.updateBrand(anyLong(), brandDto);
 
-        assertEquals(brandEntity.getBrandName(), brandDto.getBrandName());
+        assertEquals(brandDto.getBrandName(), brandEntity.getBrandName());
         assertEquals(brandDto.getBrandName(), updated.getBrandName());
     }
 

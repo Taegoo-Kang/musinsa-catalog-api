@@ -27,7 +27,7 @@ public class CatalogService {
      */
     public CategoriesResponse getCategoriesCatalog(PriceSortType priceSortType) {
 
-        var goodsList = categoryRepository.findAll().stream()
+        var goodsList = categoryRepository.findAllCategories().stream()
                 .map(category -> {
 
                     var goods = goodsRepository.findOneByCategory(category, priceSortType);
@@ -48,7 +48,8 @@ public class CatalogService {
 
         return CategoriesResponse.builder()
                 .goodsList(goodsList)
-                .totalPrice(NumberUtils.formatDecimal(totalPrice))
+                .totalPrice(totalPrice)
+                .totalPriceStr(NumberUtils.formatDecimal(totalPrice))
                 .build();
     }
 
@@ -59,9 +60,15 @@ public class CatalogService {
      */
     public BrandResponse getBrandCatalog(PriceSortType priceSortType) {
 
-        var categoryList = categoryRepository.findAll();
+        // 최저가 또는 최고가 정렬
+        var comparator = switch (priceSortType) {
+            case LOW -> Comparator.comparing(BrandCatalogVo::totalPrice);
+            case HIGH -> Comparator.comparing(BrandCatalogVo::totalPrice, Comparator.reverseOrder());
+        };
 
-        var brandCatalog = brandRepository.findAll().stream()
+        // 브랜드별 모든 카테고리 상품 조회
+        var categoryList = categoryRepository.findAllCategories();
+        var brandCatalog = brandRepository.findAllBrands().stream()
                 .map(brand -> {
                     // 브랜드별 모든 카테고리 상품 조회
                     var categoryGoodsList = categoryList.stream()
@@ -83,15 +90,16 @@ public class CatalogService {
                     return BrandCatalogVo.builder()
                             .brandName(brand.getBrandName())
                             .categoryGoodsList(categoryGoodsList)
-                            .totalPrice(NumberUtils.formatDecimal(totalPrice))
+                            .totalPrice(totalPrice)
+                            .totalPriceStr(NumberUtils.formatDecimal(totalPrice))
                             .build();
 
                 })
-                .min(Comparator.comparing(BrandCatalogVo::totalPrice))
+                .min(comparator)
                 .orElse(null);
 
         return BrandResponse.builder()
-                .lowBrandCatalog(brandCatalog)
+                .brandCatalog(brandCatalog)
                 .build();
     }
 

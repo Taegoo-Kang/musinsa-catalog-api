@@ -8,10 +8,7 @@ import lombok.Builder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record BrandResponse(
 
-    @Schema(description = "최저가")
-    BrandCatalogVo lowBrandCatalog,
-
-    @Schema(description = "최고가")
-    BrandCatalogVo highBrandCatalog
+    @Schema(description = "브랜드 카탈로그")
+    BrandCatalogVo brandCatalog
 
 ) {}

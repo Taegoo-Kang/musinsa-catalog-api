@@ -54,8 +54,8 @@ public class GoodsQuerydslRepositoryTest {
 
         assertNotNull(lowGoods);
         assertNotNull(highGoods);
-        assertEquals(lowGoods, findLowGoods);
-        assertEquals(highGoods, findHighGoods);
+        assertEquals(findLowGoods, lowGoods);
+        assertEquals(findHighGoods, highGoods);
         assertEquals("G", lowGoods.getBrand().getBrandName());
         assertEquals("E", highGoods.getBrand().getBrandName());
         assertEquals(9000L, lowGoods.getSalePrice());
@@ -86,8 +86,8 @@ public class GoodsQuerydslRepositoryTest {
 
         assertNotNull(lowGoods);
         assertNotNull(highGoods);
-        assertEquals(lowGoods, findLowGoods);
-        assertEquals(highGoods, findHighGoods);
+        assertEquals(findLowGoods, lowGoods);
+        assertEquals(findHighGoods, highGoods);
         assertEquals("A", lowGoods.getBrand().getBrandName());
         assertEquals("H", highGoods.getBrand().getBrandName());
         assertEquals(9000L, lowGoods.getSalePrice());
@@ -110,8 +110,8 @@ public class GoodsQuerydslRepositoryTest {
 
         // then
         assertNotNull(outerC);
-        assertEquals(outerC.getBrand(), brandC);
-        assertEquals(outerC.getCategory(), outer);
+        assertEquals(brandC, outerC.getBrand());
+        assertEquals(outer, outerC.getCategory());
         assertEquals(6200L, outerC.getSalePrice());
 
         // when - 같은 브랜드, 카테고리 상품 추가
@@ -140,9 +140,9 @@ public class GoodsQuerydslRepositoryTest {
 
         assertNotNull(lowOuterC);
         assertNotNull(highOuterC);
-        assertEquals(lowOuterC, findLowGoods);
-        assertEquals(highOuterC, findHighGoods);
-        assertEquals(outerC, highOuterC);
+        assertEquals(findLowGoods, lowOuterC);
+        assertEquals(findHighGoods, highOuterC);
+        assertEquals(highOuterC, outerC);
         assertEquals(6000L, lowOuterC.getSalePrice());
         assertEquals(6200L, highOuterC.getSalePrice());
     }

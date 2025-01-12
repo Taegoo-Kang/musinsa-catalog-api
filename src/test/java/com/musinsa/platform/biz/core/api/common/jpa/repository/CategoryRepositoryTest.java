@@ -9,8 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ImportAutoConfiguration({JpaConfiguration.class, QuerydslConfiguration.class})
 @DataJpaTest
@@ -38,6 +37,27 @@ public class CategoryRepositoryTest {
 
         assertEquals(category.getCategoryName(), saved.getCategoryName());
         assertEquals("Y", saved.getUseYn());
+    }
+
+    @Test
+    @DisplayName("카테고리 전체 조회")
+    void test_findAllCategory() {
+
+        // given
+        var category = Category.builder()
+                .categoryName("테스트카테고리")
+                .build();
+
+        categoryRepository.save(category);
+
+        // when
+        var categoryList = categoryRepository.findAllCategories();
+        var saved = categoryList.getLast();
+
+        // then
+        assertEquals(category.getCategoryName(), saved.getCategoryName());
+        assertTrue(categoryList.stream()
+                .allMatch(find -> "Y".equals(find.getUseYn())));
     }
 
     @Test

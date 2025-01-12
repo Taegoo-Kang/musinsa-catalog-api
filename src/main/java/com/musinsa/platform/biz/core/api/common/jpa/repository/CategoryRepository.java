@@ -6,10 +6,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
+
+    @Query("SELECT c FROM Category c WHERE c.useYn = 'Y'")
+    List<Category> findAllCategories();
 
     @Query("SELECT c FROM Category c WHERE c.categoryNo = :categoryNo AND c.useYn = 'Y'")
     Optional<Category> findByCategoryNo(@Param("categoryNo") Long categoryNo);
