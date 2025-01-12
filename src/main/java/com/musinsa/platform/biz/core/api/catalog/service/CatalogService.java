@@ -91,7 +91,7 @@ public class CatalogService {
                 .orElse(null);
 
         return BrandResponse.builder()
-                .brandCatalog(brandCatalog)
+                .lowBrandCatalog(brandCatalog)
                 .build();
     }
 
