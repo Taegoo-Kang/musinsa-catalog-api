@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<body th:fragment="SibebarFragment">
+    <div id="layoutSidenav_nav">
+        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+            <div class="sb-sidenav-menu">
+                <div class="nav">
+                    <div class="sb-sidenav-menu-heading">카탈로그</div>
+                    <a class="nav-link" href="/catalog/low/categories">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        카테고리 별 최저가 상품
+                    </a>
+                    <a class="nav-link" href="/catalog/low/brand">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        최저가 브랜드
+                    </a>
+                    <a class="nav-link" href="/catalog/low-high/category">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        카테고리 검색
+                    </a>
+                    <div class="sb-sidenav-menu-heading">관리</div>
+                    <a class="nav-link" href="/admin/brand">
+                        <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                        브랜드
+                    </a>
+                    <a class="nav-link" href="/admin/goods">
+                        <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                        상품
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </div>
+</body>
+</html>

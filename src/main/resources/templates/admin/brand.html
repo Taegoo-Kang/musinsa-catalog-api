@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/fragments/layout/layout}"
+      layout:fragment="Content">
+
+<body>
+<h1 class="mt-4">브랜드 관리</h1>
+
+<div class="container-lg">
+  <div class="table-responsive">
+    <div class="table-wrapper">
+      <div class="table-title">
+        <div class="row">
+          <div class="col-sm-8"><h2>브랜드 목록</h2></div>
+          <div class="col-sm-4">
+            <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button>
+          </div>
+        </div>
+      </div>
+      <table class="table table-bordered">
+        <thead align="center">
+        <tr>
+          <th>No</th>
+          <th>브랜드명</th>
+          <th>수정/삭제</th>
+        </tr>
+        </thead>
+        <tbody align="center">
+        <tr th:each="brand : ${brandList}">
+          <td th:text="${brand.brandNo}"></td>
+          <td th:text="${brand.brandName}"></td>
+          <td>
+            <a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
+            <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+            <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</body>
+</html>
