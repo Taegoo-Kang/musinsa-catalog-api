@@ -9,7 +9,7 @@ $(document).ready(function(){
         var index = $("table tbody tr:last-child").index();
         var row = '<tr>' +
             '<td name="brandNo"><input type="text" class="form-control" name="brandNo" disabled></td>' +
-            '<td type="brandName"><input type="text" class="form-control" name="brandName"></td>' +
+            '<td name="brandName"><input type="text" class="form-control" name="brandName"></td>' +
             '<td>' + actions + '</td>' +
             '</tr>';
         $("table").append(row);
