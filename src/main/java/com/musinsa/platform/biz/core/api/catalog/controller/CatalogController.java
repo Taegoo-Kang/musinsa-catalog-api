@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "1. 상품 카탈로그 API")
+@Tag(name = "과제 1~3. 상품 카탈로그 API")
 @RequiredArgsConstructor
 @RequestMapping("/api/catalog")
 @RestController
