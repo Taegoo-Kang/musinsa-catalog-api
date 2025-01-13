@@ -1,8 +1,8 @@
-package com.musinsa.platform.biz.core.api.goods.controller;
+package com.musinsa.platform.biz.core.api.admin.goods.controller;
 
-import com.musinsa.platform.biz.core.api.goods.dto.GoodsDto;
+import com.musinsa.platform.biz.core.api.admin.goods.dto.GoodsDto;
 import com.musinsa.platform.biz.core.api.common.dto.Response;
-import com.musinsa.platform.biz.core.api.goods.service.GoodsService;
+import com.musinsa.platform.biz.core.api.admin.goods.service.GoodsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -13,7 +13,7 @@ import java.util.List;
 
 @Tag(name = "3. 상품 관리 API")
 @RequiredArgsConstructor
-@RequestMapping("/api/goods")
+@RequestMapping("/api/admin/goods")
 @RestController
 public class GoodsController {
 

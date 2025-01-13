@@ -1,4 +1,4 @@
-package com.musinsa.platform.biz.core.api.brand.dto;
+package com.musinsa.platform.biz.core.api.admin.brand.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.musinsa.platform.biz.core.api.common.dto.CommonDto;

@@ -1,11 +1,11 @@
-package com.musinsa.platform.biz.core.api.goods.service;
+package com.musinsa.platform.biz.core.api.admin.goods.service;
 
-import com.musinsa.platform.biz.core.api.goods.dto.GoodsDto;
+import com.musinsa.platform.biz.core.api.admin.goods.dto.GoodsDto;
 import com.musinsa.platform.biz.core.api.common.exception.NotFoundException;
 import com.musinsa.platform.biz.core.api.common.jpa.repository.BrandRepository;
 import com.musinsa.platform.biz.core.api.common.jpa.repository.CategoryRepository;
 import com.musinsa.platform.biz.core.api.common.jpa.repository.GoodsRepository;
-import com.musinsa.platform.biz.core.api.goods.mapper.GoodsMapper;
+import com.musinsa.platform.biz.core.api.admin.goods.mapper.GoodsMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

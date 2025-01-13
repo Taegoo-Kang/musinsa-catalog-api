@@ -30,12 +30,12 @@
                 </tr>
                 </thead>
                 <tbody align="center">
-                <tr th:each="goods : ${goodsList}">
-                    <td th:text="${goods.goodsNo}"></td>
-                    <td th:text="${goods.brandName}"></td>
-                    <td th:text="${goods.categoryName}"></td>
-                    <td th:text="${goods.goodsName}"></td>
-                    <td th:text="${goods.salePrice}"></td>
+                <tr th:each="goods : ${goodsList}" th:goodsNo="${goods.goodsNo}">
+                    <td th:name="goodsNo" th:text="${goods.goodsNo}"></td>
+                    <td th:name="brandName" th:text="${goods.brandName}"></td>
+                    <td th:name="categoryName" th:text="${goods.categoryName}"></td>
+                    <td th:name="goodsName" th:text="${goods.goodsName}"></td>
+                    <td th:name="salePrice" th:text="${goods.salePrice}"></td>
                     <td>
                         <a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
                         <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>

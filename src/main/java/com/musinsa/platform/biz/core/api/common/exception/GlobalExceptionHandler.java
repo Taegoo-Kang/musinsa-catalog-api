@@ -15,7 +15,16 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<Response<?>> handleNotFoundError(NotFoundException e) {
-        log.error("{} [{}]을(를) 찾을 수 없습니다.", e.getTarget(), e.getTargetId());
+        log.warn("{} [{}]을(를) 찾을 수 없습니다.", e.getTarget(), e.getTargetId());
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(Response.fail(e.getMessage()));
+    }
+
+    @ExceptionHandler(DuplicateException.class)
+    public ResponseEntity<Response<?>> handleDuplicateError(DuplicateException e) {
+        log.warn(e.getMessage());
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)

@@ -82,4 +82,21 @@ public class BrandRepositoryTest {
         assertEquals(brand.getBrandName(), saved.getBrandName());
         assertEquals("Y", saved.getUseYn());
     }
+
+    @Test
+    @DisplayName("브랜드명 중복 체크")
+    void test_checkBrandNameDuplicate() {
+
+        // given
+        String existBrandName = "A";
+        String nonExistBrandName = "Z";
+
+        // when
+        boolean exist = brandRepository.existsByBrandName(existBrandName);
+        boolean nonExist = brandRepository.existsByBrandName(nonExistBrandName);
+
+        // then
+        assertTrue(exist);
+        assertFalse(nonExist);
+    }
 }

@@ -1,9 +1,9 @@
 package com.musinsa.platform.biz.core.web;
 
-import com.musinsa.platform.biz.core.api.brand.service.BrandService;
+import com.musinsa.platform.biz.core.api.admin.brand.service.BrandService;
 import com.musinsa.platform.biz.core.api.catalog.service.CatalogService;
 import com.musinsa.platform.biz.core.api.common.model.PriceSortType;
-import com.musinsa.platform.biz.core.api.goods.service.GoodsService;
+import com.musinsa.platform.biz.core.api.admin.goods.service.GoodsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

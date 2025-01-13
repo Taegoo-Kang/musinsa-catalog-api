@@ -1,6 +1,7 @@
 package com.musinsa.platform.biz.core.api.common.jpa.repository;
 
 import com.musinsa.platform.biz.core.api.common.jpa.entity.Brand;
+import com.musinsa.platform.biz.core.api.common.jpa.repository.querydsl.BrandQuerydslRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface BrandRepository extends JpaRepository<Brand, Long> {
+public interface BrandRepository extends JpaRepository<Brand, Long>, BrandQuerydslRepository {
 
     @Query("SELECT b FROM Brand b WHERE b.useYn = 'Y'")
     List<Brand> findAllBrands();

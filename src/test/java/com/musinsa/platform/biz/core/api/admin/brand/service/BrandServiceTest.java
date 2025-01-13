@@ -1,6 +1,8 @@
-package com.musinsa.platform.biz.core.api.brand.service;
+package com.musinsa.platform.biz.core.api.admin.brand.service;
 
-import com.musinsa.platform.biz.core.api.brand.dto.BrandDto;
+import com.musinsa.platform.biz.core.api.admin.brand.dto.BrandDto;
+import com.musinsa.platform.biz.core.api.admin.brand.service.BrandService;
+import com.musinsa.platform.biz.core.api.common.exception.DuplicateException;
 import com.musinsa.platform.biz.core.api.common.exception.NotFoundException;
 import com.musinsa.platform.biz.core.api.common.jpa.entity.Brand;
 import com.musinsa.platform.biz.core.api.common.jpa.repository.BrandRepository;
@@ -109,5 +111,16 @@ public class BrandServiceTest {
         given(brandRepository.findByBrandNo(anyLong())).willReturn(Optional.empty());
 
         assertThrows(NotFoundException.class, () -> brandService.deleteBrand(anyLong()));
+    }
+
+    @Test
+    @DisplayName("브랜드명 중복")
+    void test_duplicateBrandName() {
+
+        given(brandRepository.existsByBrandName(anyString())).willReturn(true);
+
+        assertThrows(DuplicateException.class, () -> brandService.createBrand(BrandDto.builder()
+                .brandName("중복브랜드")
+                .build()));
     }
 }

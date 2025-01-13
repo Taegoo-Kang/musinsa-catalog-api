@@ -27,9 +27,9 @@
         </tr>
         </thead>
         <tbody align="center">
-        <tr th:each="brand : ${brandList}">
-          <td th:text="${brand.brandNo}"></td>
-          <td th:text="${brand.brandName}"></td>
+        <tr th:each="brand : ${brandList}" th:brandNo="${brand.brandNo}">
+          <td th:name="brandNo" th:text="${brand.brandNo}"></td>
+          <td th:name="brandName" th:text="${brand.brandName}"></td>
           <td>
             <a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
             <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
@@ -41,5 +41,7 @@
     </div>
   </div>
 </div>
+
+<script src="/js/admin/brand.js"></script>
 </body>
 </html>

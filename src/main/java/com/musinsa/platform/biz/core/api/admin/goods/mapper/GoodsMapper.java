@@ -1,6 +1,6 @@
-package com.musinsa.platform.biz.core.api.goods.mapper;
+package com.musinsa.platform.biz.core.api.admin.goods.mapper;
 
-import com.musinsa.platform.biz.core.api.goods.dto.GoodsDto;
+import com.musinsa.platform.biz.core.api.admin.goods.dto.GoodsDto;
 import com.musinsa.platform.biz.core.api.common.exception.NotFoundException;
 import com.musinsa.platform.biz.core.api.common.jpa.entity.Goods;
 import com.musinsa.platform.biz.core.api.common.jpa.repository.BrandRepository;

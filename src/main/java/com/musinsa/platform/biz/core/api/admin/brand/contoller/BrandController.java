@@ -1,7 +1,7 @@
-package com.musinsa.platform.biz.core.api.brand.contoller;
+package com.musinsa.platform.biz.core.api.admin.brand.contoller;
 
-import com.musinsa.platform.biz.core.api.brand.service.BrandService;
-import com.musinsa.platform.biz.core.api.brand.dto.BrandDto;
+import com.musinsa.platform.biz.core.api.admin.brand.service.BrandService;
+import com.musinsa.platform.biz.core.api.admin.brand.dto.BrandDto;
 import com.musinsa.platform.biz.core.api.common.dto.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -13,7 +13,7 @@ import java.util.List;
 
 @Tag(name = "2. 브랜드 관리 API")
 @RequiredArgsConstructor
-@RequestMapping("/api/brand")
+@RequestMapping("/api/admin/brand")
 @RestController
 public class BrandController {
 

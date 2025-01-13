@@ -1,13 +1,14 @@
-package com.musinsa.platform.biz.core.api.goods.service;
+package com.musinsa.platform.biz.core.api.admin.goods.service;
 
+import com.musinsa.platform.biz.core.api.admin.goods.service.GoodsService;
 import com.musinsa.platform.biz.core.api.common.jpa.entity.Brand;
 import com.musinsa.platform.biz.core.api.common.jpa.entity.Category;
 import com.musinsa.platform.biz.core.api.common.jpa.entity.Goods;
 import com.musinsa.platform.biz.core.api.common.jpa.repository.BrandRepository;
 import com.musinsa.platform.biz.core.api.common.jpa.repository.CategoryRepository;
 import com.musinsa.platform.biz.core.api.common.jpa.repository.GoodsRepository;
-import com.musinsa.platform.biz.core.api.goods.dto.GoodsDto;
-import com.musinsa.platform.biz.core.api.goods.mapper.GoodsMapper;
+import com.musinsa.platform.biz.core.api.admin.goods.dto.GoodsDto;
+import com.musinsa.platform.biz.core.api.admin.goods.mapper.GoodsMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

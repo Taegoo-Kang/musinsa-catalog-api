@@ -1,7 +1,8 @@
-package com.musinsa.platform.biz.core.api.brand.service;
+package com.musinsa.platform.biz.core.api.admin.brand.service;
 
-import com.musinsa.platform.biz.core.api.brand.mapper.BrandMapper;
-import com.musinsa.platform.biz.core.api.brand.dto.BrandDto;
+import com.musinsa.platform.biz.core.api.admin.brand.mapper.BrandMapper;
+import com.musinsa.platform.biz.core.api.admin.brand.dto.BrandDto;
+import com.musinsa.platform.biz.core.api.common.exception.DuplicateException;
 import com.musinsa.platform.biz.core.api.common.exception.NotFoundException;
 import com.musinsa.platform.biz.core.api.common.jpa.repository.BrandRepository;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +36,9 @@ public class BrandService {
      */
     @Transactional
     public BrandDto createBrand(BrandDto brandDto) {
+        // 브랜드명 중복 체크
+        this.checkDuplicateBrandName(brandDto.getBrandName());
+
         var brand = brandRepository.save(BrandMapper.toEntity(brandDto));
 
         return BrandMapper.toDto(brand);
@@ -51,7 +55,12 @@ public class BrandService {
         var brand = brandRepository.findByBrandNo(brandNo)
                 .orElseThrow(() -> new NotFoundException("브랜드", brandNo));
 
-        brand.setBrandName(brandDto.getBrandName());
+        if (!brand.getBrandName().equals(brandDto.getBrandName())) {
+            // 브랜드명 중복 체크
+            this.checkDuplicateBrandName(brandDto.getBrandName());
+
+            brand.setBrandName(brandDto.getBrandName());
+        }
 
         return BrandMapper.toDto(brand);
     }
@@ -67,5 +76,16 @@ public class BrandService {
                 .orElseThrow(() -> new NotFoundException("브랜드", brandNo));
 
         brand.delete();
+    }
+
+    /**
+     * 같은 브랜드명이 존재하는지 체크
+     *
+     * @param brandName 브랜드명
+     */
+    private void checkDuplicateBrandName(String brandName) {
+        if (brandRepository.existsByBrandName(brandName)) {
+            throw new DuplicateException("브랜드명", brandName);
+        }
     }
 }
